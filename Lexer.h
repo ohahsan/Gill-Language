@@ -1,6 +1,8 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include <string>
+
 enum Token {
   // End of file.
   EOF_TOKEN = -1,
@@ -16,6 +18,7 @@ enum Token {
 
 };
 
-int getToken();
+int getToken(std::string file, int *position);
+static int nexChar(std::string file, int *position);
 
 #endif

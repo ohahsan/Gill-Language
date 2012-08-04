@@ -1,8 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 #include "Lexer.h"
 
@@ -11,12 +11,12 @@ using namespace std;
 static string word = "";
 static int number;
 
-int getToken() {
+int getToken(string file, int *position) {
   static int lastChar = ' ';
 
   // Ignore spaces.
   while (isspace(lastChar)) {
-    lastChar = getchar();
+    lastChar = nexChar(file, position);
   }
 
   // Keyword
@@ -25,7 +25,7 @@ int getToken() {
     // Get the rest of the keyword.
     while(isalnum(lastChar)) {
       word += lastChar;
-      lastChar = getchar();
+      lastChar = nexChar(file, position);
     }
 
     // Match the keyword to a token.
@@ -49,7 +49,7 @@ int getToken() {
     string numberString;
     do {
       numberString += lastChar;
-      lastChar = getchar();
+      lastChar = nexChar(file, position);
     } while (isdigit(lastChar));
     number = atoi(numberString.c_str());
     return NUM;
@@ -57,14 +57,14 @@ int getToken() {
 
   // Comments.
   if (lastChar == '/') {
-    lastChar = getchar();
+    lastChar = nexChar(file, position);
     if (lastChar == '/') {
       do {
-	lastChar = getchar();
+	lastChar = nexChar(file, position);
       } while (lastChar != EOF && lastChar != '\n' && lastChar != '\r');
 
       if (lastChar != EOF) {
-	int nextToken = getToken();
+	int nextToken = getToken(file, position);
 	return nextToken;
       }
     }
@@ -77,7 +77,13 @@ int getToken() {
 
   // Other characters.
   int thisChar = lastChar;
-  lastChar = getchar();
+  lastChar = nexChar(file, position);
   return thisChar;
 
+}
+
+static int nexChar(string file, int *position) {
+  int character = file[*position];
+  *position = *position + 1;
+  return character;
 }
