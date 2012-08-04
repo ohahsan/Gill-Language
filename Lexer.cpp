@@ -13,6 +13,7 @@ static int number;
 
 int getToken(string file, int *position) {
   static int lastChar = ' ';
+  word = "";
 
   // Ignore spaces.
   while (isspace(lastChar)) {
@@ -34,13 +35,15 @@ int getToken(string file, int *position) {
     } else if (word == "var") {
       return VAR;
     } else if (word == "gint") {
-      return GINT;
+    return GINT;
     } else if (word == "guif") {
       return GUIF;
     } else if (word == "elif") {
       return ELIF;
     } else if (word == "guolse") {
       return GUOLSE;
+    } else {
+      return IDEN;
     }
   }
 
@@ -70,7 +73,7 @@ int getToken(string file, int *position) {
     }
 
     // End of file.
-    if (lastChar == EOF) {
+    if (lastChar == '\n') {
       return EOF_TOKEN;
     }
   }
