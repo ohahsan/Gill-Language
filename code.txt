@@ -1,0 +1,10 @@
+func gint main() {
+     var gint x = 5;
+     var gint y = x + x;
+     guif (x > y) {
+     	  var gint z = 0;
+	  guoturn z;
+     } guolse {
+          guoturn y;
+     }
+}

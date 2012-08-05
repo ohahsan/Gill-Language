@@ -1,14 +1,21 @@
 #include <iostream>
+#include <fstream>
 #include "Lexer.h"
 
 using namespace std;
 
 int main() {
-  string file;
-  getline(cin, file); 
+  ifstream file;
+  file.open("code.txt");
+  string text = "", temp = "";
+  while (file.is_open() && !file.eof()) {
+    getline(file, temp);
+    text += temp;
+  }
+  file.close();
   int pos = 0;
-  while (pos <= file.length()) {
-    cout << getToken(file, &pos) << endl;
+  while (pos <= text.length()) {
+    cout << getToken(text, &pos) << endl;
   }
   return 0;
 }

@@ -12,7 +12,7 @@ enum Token {
   GINT = -21, NUM = -22,
 
   // Control flow.
-  GUIF = -31, ELIF = -32, GUOLSE = -33,
+  GUIF = -31, ELIF = -32, GUOLSE = -33, GUOTURN = -34
 
 };
 

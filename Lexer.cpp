@@ -12,7 +12,7 @@ static string word = "";
 static int number;
 
 int getToken(string file, int *position) {
-  static int lastChar;
+  static int lastChar = ' ';
   word = "";
 
   // Ignore spaces.
@@ -42,6 +42,8 @@ int getToken(string file, int *position) {
       return ELIF;
     } else if (word == "guolse") {
       return GUOLSE;
+    } else if (word == "guoturn") {
+      return GUOTURN;
     } else {
       return IDEN;
     }
@@ -86,8 +88,13 @@ int getToken(string file, int *position) {
 }
 
 static int nexChar(string file, int *position) {
-  int character = file[*position];
-  cout << "called : " << character << endl;
-  *position = *position + 1;
-  return character;
+  // Avoid reading passed the end of the string.
+  if (*position >= file.length()) {
+    *position = *position + 1;
+    return -10;
+  } else {
+    int character = file[*position];
+    *position = *position + 1;
+    return character;
+  }
 }
