@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: Test
+all: guocc
 
 Lexer.o: Lexer.cpp Lexer.h
 	g++ -c Lexer.cpp
@@ -8,8 +8,8 @@ Lexer.o: Lexer.cpp Lexer.h
 LexerDriver.o: LexerDriver.cpp Lexer.h
 	g++ -c LexerDriver.cpp
 
-Test: Lexer.h Lexer.o LexerDriver.o
-	g++ -o Test Lexer.o LexerDriver.o
+guocc: Lexer.h Lexer.o LexerDriver.o
+	g++ -o guocc Lexer.o LexerDriver.o
 
 clean: 
 	del *.o *~
