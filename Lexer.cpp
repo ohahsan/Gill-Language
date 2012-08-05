@@ -8,8 +8,13 @@
 
 using namespace std;
 
-static string word = "";
+static string word;
 static int number;
+
+/* getToken - 
+
+   Takes a string of code and a position
+   of the string to begin reading. */
 
 int getToken(string file, int *position) {
   static int lastChar = ' ';
@@ -88,6 +93,11 @@ int getToken(string file, int *position) {
   return thisChar;
 
 }
+
+/* nextChar - 
+
+   Returns the next character in the string
+   and increments the position by 1. */
 
 static int nextChar(string file, int *position) {
   // End of file.

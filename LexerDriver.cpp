@@ -6,6 +6,11 @@
 
 using namespace std;
 
+/* main -
+
+   Takes an input file of code, generates the tokens 
+   with guocc and puts them in an output file. */
+
 int main(int argc, char *argv[]) {
   // If filename is not included.
   if (argc < 2) {
