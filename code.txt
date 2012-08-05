@@ -1,3 +1,4 @@
+// Please ignore this.
 func gint main() {
      var gint x = 5;
      var gint y = x + x;
@@ -5,6 +6,7 @@ func gint main() {
      	  var gint z = 0;
 	  guoturn z;
      } guolse {
+          // This is a comment.
           guoturn y;
      }
 }

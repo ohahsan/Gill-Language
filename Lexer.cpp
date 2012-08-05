@@ -73,11 +73,6 @@ int getToken(string file, int *position) {
 	return nextToken;
       }
     }
-
-    // End of file.
-    if (lastChar == '\n') {
-      return EOF_TOKEN;
-    }
   }
 
   // Other characters.
@@ -88,13 +83,13 @@ int getToken(string file, int *position) {
 }
 
 static int nexChar(string file, int *position) {
-  // Avoid reading passed the end of the string.
+  // End of file.
   if (*position >= file.length()) {
     *position = *position + 1;
-    return -10;
-  } else {
-    int character = file[*position];
-    *position = *position + 1;
-    return character;
-  }
+    return EOF_TOKEN;
+  } 
+
+  int character = file[*position];
+  *position = *position + 1;
+  return character;
 }
