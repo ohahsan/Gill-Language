@@ -17,7 +17,7 @@ int getToken(string file, int *position) {
 
   // Ignore spaces.
   while (isspace(lastChar)) {
-    lastChar = nexChar(file, position);
+    lastChar = nextChar(file, position);
   }
 
   // Keyword
@@ -26,7 +26,7 @@ int getToken(string file, int *position) {
     // Get the rest of the keyword.
     while(isalnum(lastChar)) {
       word += lastChar;
-      lastChar = nexChar(file, position);
+      lastChar = nextChar(file, position);
     }
 
     // Match the keyword to a token.
@@ -54,7 +54,7 @@ int getToken(string file, int *position) {
     string numberString;
     do {
       numberString += lastChar;
-      lastChar = nexChar(file, position);
+      lastChar = nextChar(file, position);
     } while (isdigit(lastChar));
     number = atoi(numberString.c_str());
     return NUM;
@@ -62,10 +62,10 @@ int getToken(string file, int *position) {
 
   // Comments.
   if (lastChar == '/') {
-    lastChar = nexChar(file, position);
+    lastChar = nextChar(file, position);
     if (lastChar == '/') {
       do {
-	lastChar = nexChar(file, position);
+	lastChar = nextChar(file, position);
       } while (lastChar != EOF && lastChar != '\n' && lastChar != '\r');
 
       if (lastChar != EOF) {
@@ -75,18 +75,22 @@ int getToken(string file, int *position) {
     }
   }
 
+  // End of file.
+  if (lastChar == -1) {
+    return EOF_TOKEN;
+  }
+
   // Other characters.
   int thisChar = lastChar;
-  lastChar = nexChar(file, position);
+  lastChar = nextChar(file, position);
   return thisChar;
 
 }
 
-static int nexChar(string file, int *position) {
+static int nextChar(string file, int *position) {
   // End of file.
-  if (*position >= file.length()) {
-    *position = *position + 1;
-    return EOF_TOKEN;
+  if (*position == file.length()) {
+    return -1;
   } 
 
   int character = file[*position];
