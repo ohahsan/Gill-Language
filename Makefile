@@ -11,7 +11,7 @@ Lexer.o: Lexer.cpp Lexer.h
 LexerDriver.o: LexerDriver.cpp Lexer.h
 	$(CC) $(FLAGS) -c LexerDriver.cpp
 
-guocc: Lexer.h Lexer.o LexerDriver.o
+guocc: Lexer.o LexerDriver.o
 	$(CC) -o guocc Lexer.o LexerDriver.o
 
 clean: 
