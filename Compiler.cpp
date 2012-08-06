@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
 #include <string.h>
 #include "Lexer.h"
 
@@ -49,8 +50,10 @@ int main(int argc, char *argv[]) {
   outFile.open(outName.c_str());
 
   int token;
+  vector<int> tokenVector;
   while (token != EOF_TOKEN) {
     token = getToken(text, &pos);
+    tokenVector.insert(tokenVector.end(), token);
     outFile << token << endl;
   }
   outFile.close();

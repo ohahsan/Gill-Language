@@ -1,9 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-#include <map>
 #include <string>
-#include <vector>
 #include "Lexer.h"
 
 using namespace std;
