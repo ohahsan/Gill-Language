@@ -17,6 +17,5 @@ enum Token {
 };
 
 int getToken(std::string file, int *position);
-static int nextChar(std::string file, int *position);
 
 #endif

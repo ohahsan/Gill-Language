@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// correctSuffix method.
 static bool correctSuffix(string file);
 
 /* main -

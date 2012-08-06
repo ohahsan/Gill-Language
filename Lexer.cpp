@@ -8,6 +8,9 @@
 
 using namespace std;
 
+// nextChar method.
+static int nextChar(string file, int *position);
+
 static string word;
 static int number;
 
@@ -101,7 +104,7 @@ int getToken(string file, int *position) {
 
 static int nextChar(string file, int *position) {
   // End of file.
-  if (*position >= file.length()) {
+  if (*position >= (int)file.length()) {
     return -1;
   } 
 
