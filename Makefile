@@ -8,11 +8,11 @@ all: guocc
 Lexer.o: Lexer.cpp Lexer.h
 	$(CC) $(FLAGS) -c Lexer.cpp
 
-LexerDriver.o: LexerDriver.cpp Lexer.h
-	$(CC) $(FLAGS) -c LexerDriver.cpp
+Compiler.o: Compiler.cpp Lexer.h
+	$(CC) $(FLAGS) -c Compiler.cpp
 
-guocc: Lexer.o LexerDriver.o
-	$(CC) -o guocc Lexer.o LexerDriver.o
+guocc: Lexer.o Compiler.o
+	$(CC) -o guocc Lexer.o Compiler.o
 
 clean: 
 	del *.o *~
