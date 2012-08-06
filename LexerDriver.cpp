@@ -6,6 +6,8 @@
 
 using namespace std;
 
+static bool correctSuffix(string file);
+
 /* main -
 
    Takes an input file of code, generates the tokens 
@@ -22,8 +24,15 @@ int main(int argc, char *argv[]) {
   ifstream inFile;
   ofstream outFile;
   ostringstream lines(ostringstream::out);
-  inFile.open(argv[1]);
-  string text = "", temp = "";
+  string outName(argv[1]), text = "", temp = "";
+
+  // Check if filename ends with .guo
+  if (!correctSuffix(outName)) {
+    cerr << "Error: .guo file not entered." << endl;
+    return -1;
+  }
+
+  inFile.open(argv[1]); 
 
   // Read the code from the file.
   while (inFile.is_open() && !inFile.eof()) {
@@ -35,7 +44,6 @@ int main(int argc, char *argv[]) {
 
   // Send code to lexer and put tokens in another file.
   int pos = 0;
-  string outName(argv[1]);
   outName +=  "-tokens";
   outFile.open(outName.c_str());
 
@@ -46,4 +54,15 @@ int main(int argc, char *argv[]) {
   }
   outFile.close();
   return 0;
+}
+
+/* correctSuffix -
+
+   Returns true if file is a .guo file. */
+
+static bool correctSuffix(string file) {
+  if (file.length() < 5) {
+    return false;
+  }
+  return (0 == file.compare(file.length() - 4, 4, ".guo"));
 }
