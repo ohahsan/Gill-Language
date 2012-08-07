@@ -44,8 +44,6 @@ int getToken(string file, int *position) {
       return GINT;
     } else if (word == "guif") {
       return GUIF;
-    } else if (word == "elif") {
-      return ELIF;
     } else if (word == "guolse") {
       return GUOLSE;
     } else if (word == "guoturn") {
