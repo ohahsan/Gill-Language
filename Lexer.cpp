@@ -9,8 +9,8 @@ using namespace std;
 // nextChar method.
 static int nextChar(string file, int *position);
 
-static string word;
-static int number;
+string word;
+int number;
 
 /* getToken - 
 

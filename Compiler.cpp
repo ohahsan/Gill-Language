@@ -1,9 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <vector>
 #include <string.h>
-#include "Lexer.h"
+#include "Parser.h"
 
 using namespace std;
 
@@ -12,8 +11,8 @@ static bool correctSuffix(string file);
 
 /* main -
 
-   Takes an input file of code, generates the tokens 
-   with guocc and puts them in an output file. */
+   Takes an input file of code, combines it into
+   one string and sends it to the parser. */
 
 int main(int argc, char *argv[]) {
   // If filename is not included.
@@ -24,16 +23,14 @@ int main(int argc, char *argv[]) {
 
   // Setup of file streams.
   ifstream inFile;
-  ofstream outFile;
   ostringstream lines(ostringstream::out);
-  string outName(argv[1]), text = "", temp = "";
+  string filename(argv[1]), text = "", temp = "";
 
   // Check if filename ends with .guo
-  if (!correctSuffix(outName)) {
+  if (!correctSuffix(filename)) {
     cerr << "Error: .guo file not entered." << endl;
     return -1;
   }
-
   inFile.open(argv[1]); 
 
   // Read the code from the file.
@@ -44,19 +41,8 @@ int main(int argc, char *argv[]) {
   text = lines.str();
   inFile.close();
 
-  // Send code to lexer and put tokens in another file.
-  int pos = 0;
-  outName +=  "-tokens";
-  outFile.open(outName.c_str());
-
-  int token;
-  vector<int> tokenVector;
-  while (token != EOF_TOKEN) {
-    token = getToken(text, &pos);
-    tokenVector.insert(tokenVector.end(), token);
-    outFile << token << endl;
-  }
-  outFile.close();
+  // Send code to parser.
+  parse(text);
   return 0;
 }
 
