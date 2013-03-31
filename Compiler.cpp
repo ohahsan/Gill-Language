@@ -1,8 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
 #include <string.h>
 #include "Parser.h"
+#include "Lexer.h"
 
 using namespace std;
 
@@ -16,8 +18,8 @@ static bool correctSuffix(string file);
 
 int main(int argc, char *argv[]) {
   // If filename is not included.
-  if (argc < 2) {
-    cerr << "Error: guocc takes 2 arguments." << endl;
+  if (argc != 2) {
+    cerr << "Error: guocc takes 1 argument." << endl;
     return -1;
   }
 
@@ -42,7 +44,18 @@ int main(int argc, char *argv[]) {
   inFile.close();
 
   // Send code to parser.
-  parse(text);
+  int position = 0;
+  vector<TokenClass> tokens = lex(text, &position);
+  for (int j = 0; j < tokens.size(); j++) {
+    int tk = tokens[j].tok;
+    cout << tk;
+    if (tk == IDEN) {
+      cout << " = " << tokens[j].id;
+    } else if (tk == NUM) {
+      cout << " = " << tokens[j].num;
+    }
+    cout << endl;
+  }
   return 0;
 }
 

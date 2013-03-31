@@ -2,22 +2,51 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Lexer.h"
 
 using namespace std;
 
 // nextChar method.
 static int nextChar(string file, int *position);
+// getToken method.
+static int getToken(string file, int *position);
 
 string word;
 int number;
+
+/* lex -
+
+   Takes a string of code and lexes it. */
+
+vector<TokenClass> lex(string file, int *position) {
+  vector<TokenClass> tokens;
+  int token, num;
+  string id;
+  do {
+    token = getToken(file, position);
+    if (token == IDEN) {
+      id = word;
+      num = -1;
+    } else if (token == NUM) {
+      num = number;
+      id = "";
+    } else {
+      num = -1;
+      id = "";
+    }
+    TokenClass tok(token, id, num);
+    tokens.push_back(tok);
+  } while (token != EOF_TOKEN);
+  return tokens;
+}
 
 /* getToken - 
 
    Takes a string of code and a position
    of the string to begin reading. */
 
-int getToken(string file, int *position) {
+static int getToken(string file, int *position) {
   static int lastChar = ' ';
   word = "";
 
@@ -37,19 +66,19 @@ int getToken(string file, int *position) {
 
     // Match the keyword to a token.
     if (word == "func") {
-      return new Token("KEYWORD", "func", -1);
+      return FUNC;
     } else if (word == "var") {
-      return new Token("KEYWORD", "var", -1);
+      return VAR;
     } else if (word == "gint") {
-      return new Token("KEYWORD", "gint", -1);
+      return GINT;
     } else if (word == "guif") {
-      return new Token("KEYWORD", "guif", -1);
+      return GUIF;
     } else if (word == "guolse") {
-      return new Token("KEYWORD", "guolse", -1);
+      return GUOLSE;
     } else if (word == "guoturn") {
-      return new Token("KEYWORD", "guoturn", -1);
+      return GUOTURN;
     } else {
-      return new Token("IDENTIFIER", word, -1);
+      return IDEN;
     }
   }
 
@@ -61,7 +90,7 @@ int getToken(string file, int *position) {
       lastChar = nextChar(file, position);
     } while (isdigit(lastChar));
     number = atoi(numberString.c_str());
-    return new Token("NUMBER", "", number);
+    return NUM;
   }
 
   // Comments.
@@ -76,20 +105,20 @@ int getToken(string file, int *position) {
 	int nextToken = getToken(file, position);
 	return nextToken;
       } else {
-	return new Token("EOF", "", -1);
+	return EOF_TOKEN;
       }
     }
   }
 
   // End of file.
   if (lastChar == -1) {
-    return new Token("EOF", "", -1);
+    return EOF_TOKEN;
   }
 
   // Other characters.
   int thisChar = lastChar;
   lastChar = nextChar(file, position);
-  return new Token("ONECHAR", string(lastChar), -1) ;
+  return thisChar;
 
 }
 

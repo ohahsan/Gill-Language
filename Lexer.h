@@ -16,6 +16,19 @@ enum Token {
 
 };
 
-int getToken(std::string file, int *position);
+class TokenClass {
+ public:
+  int tok;
+  std::string id;
+  int num;
+
+  TokenClass(int t, std::string i, int n) {
+    tok = t;
+    id = i;
+    num = n;
+  }
+};
+
+std::vector<TokenClass> lex(std::string file, int *position);
 
 #endif

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Lexer.h"
+#include <vector>
+#include "Parser.h"
 
 using namespace std;
 
@@ -12,16 +13,6 @@ extern int number;
 
    Uses the lexer to generate tokens and then parses them. */
 
-void parse(string code) {
-  int token, position = 0;
-  while (token != EOF_TOKEN) {
-    token = getToken(code, &position);
-    cout << token;
-    if (token == IDEN) {
-      cout << " = " << word;
-    } else if (token == NUM) {
-      cout << " = " << number;
-    }
-    cout << endl;
-  }
+void parse(vector<TokenClass> tokens) {
+  
 }
