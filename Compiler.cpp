@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
   // Send code to parser.
   int position = 0;
   vector<TokenClass> tokens = lex(text, &position);
-  for (int j = 0; j < tokens.size(); j++) {
+  for (unsigned int j = 0; j < tokens.size(); j++) {
     int tk = tokens[j].tok;
     cout << tk;
     if (tk == IDEN) {
