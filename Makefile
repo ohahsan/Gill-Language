@@ -5,17 +5,17 @@ FLAGS = -ansi -pedantic-errors -Wall -Werror
 
 all: guocc
 
-Compiler.o: Parser.h Compiler.cpp
+Compiler.o: Interpreter.h Compiler.cpp
 	$(CPP) $(FLAGS) -c Compiler.cpp
 
 Lexer.o: Lexer.h Lexer.cpp
 	$(CPP) $(FLAGS) -c Lexer.cpp
 
-Parser.o: Parser.h Parser.cpp
-	$(CPP) $(FLAGS) -c Parser.cpp
+Interpreter.o: Interpreter.h Interpreter.cpp
+	$(CPP) $(FLAGS) -c Interpreter.cpp
 
-guocc: Compiler.o Lexer.o Parser.o
-	$(CPP) -o guocc Compiler.o Lexer.o Parser.o
+guocc: Compiler.o Lexer.o Interpreter.o
+	$(CPP) -o guocc Compiler.o Lexer.o Interpreter.o
 
 clean: 
 	del *.o *~

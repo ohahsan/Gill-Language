@@ -3,8 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <string.h>
-#include "Parser.h"
-#include "Lexer.h"
+#include "Interpreter.h"
 
 using namespace std;
 
