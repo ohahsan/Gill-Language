@@ -34,8 +34,8 @@ void interpret(vector<TokenClass> tokens) {
     
     if (token == GUIF) {
       parseGuif(tokens);
-    } else if (token != EOF_TOKEN) {
-      cout << ">> " << evalExpr(parseExpr(tokens)) << endl;
+    }  else if (token != EOF_TOKEN) {
+      evalExpr(parseExpr(tokens));
     }
     
   }
@@ -50,15 +50,14 @@ static Expression parseExpr(vector<TokenClass> tokens) {
   while (tokens[position].tok != ';') {
     if (tokens[position].tok  == '(') {
       Expression temp = parseParenExpr(tokens);
-      TokenClass token = TokenClass(NUM, "", evalExpr(temp));;
+      TokenClass token = TokenClass(NUM, "", evalExpr(temp));
       exp.push_back(token);
     } else {
       exp.push_back(tokens[position]);
     }
     position++;
   }
-  Expression expression;
-  expression.tokens = exp;
+  Expression expression = Expression(exp);
   return expression;
 }
 
@@ -79,8 +78,7 @@ static Expression parseParenExpr(vector<TokenClass> tokens) {
     }
     position++;
   }
-  Expression expression;
-  expression.tokens = exp;
+  Expression expression = Expression(exp);
   return expression;
 }
 
@@ -99,14 +97,28 @@ static int evalExpr(Expression expression) {
   if (exp.size() == 1) {
     return exp[0].num;
   } else {
-    int op = exp[1].tok;
-    int a = exp[0].num;
-    int b = exp[2].num;
-    if (op == '+') {
-      return a+b;
-    } else if (op == '-') {
-      return a-b;
+
+    if (exp[0].tok == GRINT) {
+      cout << exp[1].num << endl;
+      return 0;
+    } else {
+
+      int op = exp[1].tok;
+      int a = exp[0].num;
+      int b = exp[2].num;
+      int ans;
+      
+      // All operators handled here.
+      
+      if (op == '+') {
+	ans = a+b;
+      } else if (op == '-') {
+	ans = a-b;
+      }
+      
+      return ans;
     }
+
   }
   return 0;
 }
@@ -123,7 +135,6 @@ static void parseGuif(vector<TokenClass> tokens) {
   position++; // Ignore the ')'
   position++; // Ignore the '{'
   while (tokens[position].tok != '}') {
-    Expression exp;
     exps.push_back(parseExpr(tokens));
     position++; // Ignore the ';'
   }
@@ -139,7 +150,7 @@ static void evalGuif(Expression condition, vector<Expression> exps) {
   int res = evalExpr(condition);
   if (res != 0) {
     for (unsigned int i = 0; i < exps.size(); i++) {
-      cout << ">> " << evalExpr(exps[i]) << endl;
+      evalExpr(exps[i]);
     }
   }
 }

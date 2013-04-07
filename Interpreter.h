@@ -9,6 +9,10 @@ class Expression {
  public:
   std::vector<TokenClass> tokens;
 
+  Expression(std::vector<TokenClass> toks) {
+    tokens = toks;
+  }
+
 };
 
 #endif

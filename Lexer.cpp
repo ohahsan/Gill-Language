@@ -77,6 +77,8 @@ static int getToken(string file, int *position) {
       return GUOLSE;
     } else if (word == "guoturn") {
       return GUOTURN;
+    } else if (word == "grint") {
+      return GRINT;
     } else {
       return IDEN;
     }

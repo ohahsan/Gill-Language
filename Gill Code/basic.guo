@@ -1,26 +1,13 @@
-// SHOULD NOT EVALUATE
-
-guif (2 - 2) {
-  1 + 0;
-}
-
 // SHOULD EVALUATE
 
-guif ((1+1)) {
-  0 + 5;
+guif (1+1) {
+  grint(0 + 5);
 }
 
-// SHOULD NOT EVALUATE
-
-guif ((2 + 3) - 5) {
-  1;
+guif (0) {
+  grint (0);
 }
 
-guif (1) {
-  3;
-  5 + 15;
-}
+grint(0);
 
-3 + (6 + 3);
-(6 + 3) + (3 + (3 + 6));
-((((3))));
+grint((1+3) + (5 + (5+5)));
