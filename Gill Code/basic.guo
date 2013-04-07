@@ -1,0 +1,23 @@
+// SHOULD EVALUATE
+
+guif (1 + 5) {
+  2 + 2;
+  1+0;
+  10-6;
+}
+
+// SHOULD NOT EVALUATE
+
+guif (2 - 2) {
+  1 + 0;
+}
+
+// SHOULD EVALUATE
+
+guif (1+1) {
+  0 + 5;
+}
+
+// SHOULD DEFINITELY EVALUATE
+
+3+3;

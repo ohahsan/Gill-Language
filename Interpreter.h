@@ -3,6 +3,12 @@
 
 #include "Lexer.h"
 
-void parse(std::vector<TokenClass> tokens);
+void interpret(std::vector<TokenClass> tokens);
+
+class Expression {
+ public:
+  std::vector<TokenClass> tokens;
+
+};
 
 #endif

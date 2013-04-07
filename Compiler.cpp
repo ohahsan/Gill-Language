@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
   int position = 0;
   vector<TokenClass> tokens = lex(text, &position);
 
-  parse(tokens);
+  interpret(tokens);
 
   return 0;
 }
