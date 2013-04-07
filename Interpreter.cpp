@@ -7,14 +7,17 @@
 
 using namespace std;
 
-
+// Guif statements.
 
 static void parseGuif(vector<TokenClass> tokens);
-static void evalGuif(vector<TokenClass> conditions,
+static void evalGuif(Expression condition,
 		     vector<Expression> trues);
 
-static vector<TokenClass> parseExpr(vector<TokenClass> tokens);
-static int evalExpr(vector<TokenClass> expression);
+// Expressions.
+
+static Expression parseExpr(vector<TokenClass> tokens);
+static Expression parseParenExpr(vector<TokenClass> tokens);
+static int evalExpr(Expression expression);
 
 unsigned int position = 0;
 
@@ -42,12 +45,42 @@ void interpret(vector<TokenClass> tokens) {
    
    Parses an expression and sends it to be evaluated. */
 
-static vector<TokenClass> parseExpr(vector<TokenClass> tokens) {
-  vector<TokenClass> expression;
+static Expression parseExpr(vector<TokenClass> tokens) {
+  vector<TokenClass> exp;
   while (tokens[position].tok != ';') {
-    expression.push_back(tokens[position]);
+    if (tokens[position].tok  == '(') {
+      Expression temp = parseParenExpr(tokens);
+      TokenClass token = TokenClass(NUM, "", evalExpr(temp));;
+      exp.push_back(token);
+    } else {
+      exp.push_back(tokens[position]);
+    }
     position++;
   }
+  Expression expression;
+  expression.tokens = exp;
+  return expression;
+}
+
+/* parseParenExpr -
+   
+   Parses an expression that is inside parenthesis. */
+
+static Expression parseParenExpr(vector<TokenClass> tokens) {
+  vector<TokenClass> exp;
+  position++; // Ignore the '('
+  while (tokens[position].tok != ')') {
+    if (tokens[position].tok == '(') {
+      Expression temp = parseParenExpr(tokens);
+      TokenClass token = TokenClass(NUM, "", evalExpr(temp));
+      exp.push_back(token);
+    } else {
+      exp.push_back(tokens[position]);
+    }
+    position++;
+  }
+  Expression expression;
+  expression.tokens = exp;
   return expression;
 }
 
@@ -56,18 +89,24 @@ static vector<TokenClass> parseExpr(vector<TokenClass> tokens) {
   Evaluates an expression given as a vector of tokens.
   FOR NOW...very basic expressions. */
 
-static int evalExpr(vector<TokenClass> expression) {
+static int evalExpr(Expression expression) {
 
   // TODO...
   // MAKE THIS WITH A REAL INFIX PARSING THING!!
+  
+  vector<TokenClass> exp = expression.tokens;
 
-  int op = expression[1].tok;
-  int a = expression[0].num;
-  int b = expression[2].num;
-  if (op == '+') {
-    return a+b;
-  } else if (op == '-') {
-    return a-b;
+  if (exp.size() == 1) {
+    return exp[0].num;
+  } else {
+    int op = exp[1].tok;
+    int a = exp[0].num;
+    int b = exp[2].num;
+    if (op == '+') {
+      return a+b;
+    } else if (op == '-') {
+      return a-b;
+    }
   }
   return 0;
 }
@@ -78,23 +117,17 @@ static int evalExpr(vector<TokenClass> expression) {
    statements to evaluate. */
 
 static void parseGuif(vector<TokenClass> tokens) {
-  vector<TokenClass> statement;
   vector<Expression> exps;
   position++; // Ignore the 'guif'
-  position++; // Ignore the '('
-  while (tokens[position].tok != ')') {
-    statement.push_back(tokens[position]);
-    position++;
-  }
+  Expression cond = parseParenExpr(tokens);
   position++; // Ignore the ')'
   position++; // Ignore the '{'
   while (tokens[position].tok != '}') {
     Expression exp;
-    exp.tokens = parseExpr(tokens);
-    exps.push_back(exp);
+    exps.push_back(parseExpr(tokens));
     position++; // Ignore the ';'
   }
-  evalGuif(statement, exps);
+  evalGuif(cond, exps);
 }
 
 /* evalGuif -
@@ -102,11 +135,11 @@ static void parseGuif(vector<TokenClass> tokens) {
    Evaluates the guif statement. 
    If <condition> = 0 then false, else true. */
 
-static void evalGuif(vector<TokenClass> condition, vector<Expression> exps) {
+static void evalGuif(Expression condition, vector<Expression> exps) {
   int res = evalExpr(condition);
   if (res != 0) {
     for (unsigned int i = 0; i < exps.size(); i++) {
-      cout << ">> " << evalExpr(exps[i].tokens) << endl;
+      cout << ">> " << evalExpr(exps[i]) << endl;
     }
   }
 }
